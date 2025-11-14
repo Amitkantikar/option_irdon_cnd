@@ -1,0 +1,26 @@
+name: Iron Condor Live Logger
+
+on:
+  schedule:
+    - cron: "*/5 3-10 * * 1-5"   # every 5 minutes during market hours
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Python packages
+        run: pip install yfinance pandas
+
+      - name: Run live script
+        run: python ic_stat_live.py
+
+      - name: Commit CSV
+        run: |
+          git config --global user.email "bot@example.com"
+          git config --global user.name "AutoBot"
+          git add ic_live_trades.csv
+          git commit -m "Live trade log update" || echo "No changes"
+          git push
