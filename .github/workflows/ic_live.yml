@@ -21,6 +21,6 @@ jobs:
         run: |
           git config --global user.email "bot@example.com"
           git config --global user.name "AutoBot"
-          git add ic_live_trades.csv
+          git add ic_live_trades.csv || echo "No CSV to add yet"
           git commit -m "Live trade log update" || echo "No changes"
           git push
